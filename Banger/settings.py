@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+	'Player',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# by default, users are represented by the User model found in django.contrib.auth.
+# by setting AUTH_USER_MODEL to the Player.Player model, django will instead represent users as players.
+# This is not meant to be changed after project initialisation without great effort.
+AUTH_USER_MODEL = "Player.Player"
