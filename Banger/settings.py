@@ -26,7 +26,10 @@ with open("Banger/SECRET_KEY") as key_file:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+	'127.0.0.1',
+	'testserver',
+]
 
 
 # Application definition
@@ -55,8 +58,8 @@ ROOT_URLCONF = 'Banger.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [],
-		'APP_DIRS': True,
+		'DIRS': ['./templates'],
+		'APP_DIRS': False,
 		'OPTIONS': {
 			'context_processors': [
 				'django.template.context_processors.debug',
@@ -108,9 +111,9 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
