@@ -10,10 +10,10 @@ def register(request):
 		form = forms.PlayerCreationForm( request.POST)
 		# Check if the form is valid:
 		if form.is_valid():
-			# process the data in form.cleaned_data as required (here we just write it to the model due_back field)
 			form.save()
-			# redirect to a new URL:
-			return HttpResponseRedirect('/')
+			# redirect to the confirmation page
+			context = {"email":request.POST['email'], "initial_char":request.POST['initial_char']}
+			return render( request, "player/registration_confirmation.html", context)
 
 	# If this is a GET (or any other method) create the default form.
 	else:

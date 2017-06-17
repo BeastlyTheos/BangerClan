@@ -12,6 +12,7 @@ templates = [
 templates += [
 	"player/"+name for name in [
 		"register.html",
+		"registration_confirmation.html",
 	]
 ]
 
