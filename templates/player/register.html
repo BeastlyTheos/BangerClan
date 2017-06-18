@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+{% if form.errors %}
+{{form.errors}}
+{% endif %}
+
+<form method="post" action="{% url 'register' %}">
+{% csrf_token %}
+{{form}}
+
+<div>
+  <input type="submit" value="register" />
+</div>
+</form>
+{% endblock main %}
