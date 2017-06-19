@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 
-from Player.models import Player
+from Player.models import Player, PendingCharRegistration
 
 
 class Registration(TestCase):
@@ -26,4 +26,8 @@ class Registration(TestCase):
 		self.assertNotIn("<form", response.content.__str__(), "email %s and password %s does not redirect to a page without a form (IE: the confirmation page)".format(self.email, self.password))
 		users = Player.objects.filter(email=self.email)
 		self.assertEqual(users.count(), 1, "email %s and password %s does not create a user in the database".format(self.email, self.password))
+		user = users[0]
+		pending_chars = PendingCharRegistration.objects.filter(player=user, name=self.initial_char)
+		self.assertEqual(pending_chars.count(), 1, "failed to create initial char named "+self.initial_char)
+		pending_chars.delete()
 		users.delete()

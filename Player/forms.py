@@ -17,3 +17,12 @@ class PlayerCreationForm(UserCreationForm):
 	class Meta:
 		model = models.Player
 		fields = ("email",)
+
+	def save(self, commit=True):
+		user = super(PlayerCreationForm, self).save(commit=False)
+		user.set_password(self.cleaned_data["password1"])
+		if commit:
+			user.save()
+		pending_char = models.PendingCharRegistration(player=user,name=self.cleaned_data['initial_char'])
+		pending_char.save()
+		return user
