@@ -7,7 +7,7 @@ from . import models
 class PlayerCreationForm(UserCreationForm):
 	"""
 	A form that creates a player, with no privileges or chars, from the given playername and
-	password. After which, a PendingCharPairing object is queued for further processing
+	password. After which, a PendingCharRegistration object is queued for further processing
 	"""
 	error_messages = {
 		'password_mismatch': "The two password fields didn't match.",

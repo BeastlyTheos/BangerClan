@@ -1,3 +1,5 @@
+from secrets import token_urlsafe
+
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
@@ -124,3 +126,12 @@ class Char(models.Model):
 	owner = models.ForeignKey( "Player", on_delete=models.CASCADE, editable=False)
 	name = models.CharField( max_length=16, unique=True)
 	is_incog = models.BooleanField( default=True)
+
+class PendingCharRegistration(models.Model):
+	player = models.ForeignKey('player', on_delete=models.CASCADE, editable=False)
+	name = models.CharField(max_length=16)
+	request_datetime = models.DateTimeField( auto_now_add=True, editable=False)
+	token = models.CharField(default=token_urlsafe, max_length=43)
+
+	class Meta:
+		unique_together = ('player', 'name'),
