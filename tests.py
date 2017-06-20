@@ -16,6 +16,7 @@ templates += [
 		"register_char_confirmation.html",
 		"register_char_error.html",
 		"login.html",
+		"logged_out.html",
 	]
 ]
 
@@ -29,6 +30,7 @@ urls += [
 		"register/",
 		#"register_char",
 		"login",
+		"logout",
 	]
 ]
 

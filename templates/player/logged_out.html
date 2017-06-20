@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% comment %} Taken with some modifications from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication {% endcomment %}
+
+{% block title %}You have logged out of Banger{% endblock %}
+
+{% block main %}
+<p>Logged out!</p>
+
+<a href="{% url 'login'%}">Click here to login again.</a>
+{% endblock main %}

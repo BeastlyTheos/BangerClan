@@ -66,3 +66,5 @@ class ValidateAccess(TestCase):
 		response = self.client.post("/player/login", {"username":self.char.name, "password":self.user_password})
 		self.assertEqual(response.status_code, 302, "logging in does not redirect")
 		self.assertIn("_auth_user_id", self.client.session, "logging in does not create a session id")
+		response = self.client.get("/player/logout")
+		self.assertNotIn("_auth_user_id", self.client.session, "logging in does not create a session id")
