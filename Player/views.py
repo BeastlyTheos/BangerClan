@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 
@@ -52,3 +53,8 @@ def register_char(request):
 	pending_char.delete()
 	context = {"email":char.owner.email, "char":char.name}
 	return render(request, "player/register_char_confirmation.html", context)
+
+@login_required
+def profile(request):
+	context = {"user": request.user}
+	return render(request, "player/profile.html", context)

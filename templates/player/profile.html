@@ -1,0 +1,9 @@
+{%  extends "base.html"  %}
+
+{% block title %}Profile: {{user.email}}{% endblock %}
+
+{%  block main  %}
+	<h1>{{user.current_char.name}}</h1>
+<p>Hello, p.{{user.current_char.name}}. Your email is {{user.email}}</p>
+<a href="{% url "logout"%}">logout</a>
+{%  endblock main  %}

@@ -68,3 +68,13 @@ class ValidateAccess(TestCase):
 		self.assertIn("_auth_user_id", self.client.session, "logging in does not create a session id")
 		response = self.client.get("/player/logout")
 		self.assertNotIn("_auth_user_id", self.client.session, "logging in does not create a session id")
+
+	def test_profileAccess(self):
+		response = self.client.get("/player/profile")
+		self.assertEqual(response.status_code, 302, "accessing profile without authorisation does not redirect")
+		self.assertTrue(self.client.login(username=self.char.name, password=self.user_password), "cannot log in")
+		#response = self.client.get("/player/profile")
+		self.assertEqual(response.status_code, 302, "authorised user cannot access profile")
+		self.client.logout()
+		response = self.client.get("/player/profile")
+		self.assertEqual(response.status_code, 302, "accessing profile after logging out does not redirect")

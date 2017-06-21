@@ -125,6 +125,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+# when an unauthorised user tries to access a page that requires login, redirect them to the login view
+LOGIN_URL = "login"
 # by default, users are represented by the User model found in django.contrib.auth.
 # by setting AUTH_USER_MODEL to the Player.Player model, django will instead represent users as players.
 # This is not meant to be changed after project initialisation without great effort.
@@ -132,3 +134,6 @@ AUTH_USER_MODEL = "Player.Player"
 
 # custom authentication backend that allows login by char name instead of username/email
 AUTHENTICATION_BACKENDS = ["Player.backends.ModelBackend"]
+
+# After logging in, redirect users to this view
+LOGIN_REDIRECT_URL = "profile"
