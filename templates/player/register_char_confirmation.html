@@ -4,5 +4,5 @@
 
 {% block main %}
 <h1>char registered successfully to {{email}}</h1>
-<p>You can now use {{char}} to log into your account</p>
+<p>You can now use {{char}} to <a href="{% url "login" %}">log into your account</a></p>
 {% endblock main %}

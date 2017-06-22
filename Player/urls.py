@@ -14,7 +14,9 @@ Including another URLconf
 	2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.contrib.auth import views as auth_views
 
+from . import forms
 from . import views
 
 
@@ -22,4 +24,5 @@ urlpatterns = [
 	url(r"^register/", views.register, name="register"),
 	url(r"^show/", views.ShowPendingChars),
 	url(r"^register_char$", views.register_char, name="register_char"),
+	url(r"^login$", auth_views.login, {"template_name":"player/login.html", "authentication_form":forms.AuthenticationForm}, name="login"),
 ]

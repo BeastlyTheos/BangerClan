@@ -129,3 +129,6 @@ STATIC_URL = '/static/'
 # by setting AUTH_USER_MODEL to the Player.Player model, django will instead represent users as players.
 # This is not meant to be changed after project initialisation without great effort.
 AUTH_USER_MODEL = "Player.Player"
+
+# custom authentication backend that allows login by char name instead of username/email
+AUTHENTICATION_BACKENDS = ["Player.backends.ModelBackend"]

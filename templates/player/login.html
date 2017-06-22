@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% comment %} Taken with some modifications from https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication {% endcomment %}
+
+{% block title %}Log into Banger{% endblock %}
+{% block main %}
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+	{% if user.is_authenticated %}
+	<p>Your account doesn't have access to this page. To proceed,
+	please login with an account that has access.</p>
+	{% else %}
+	<p>Please login to see this page.</p>
+	{% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+{{form}}
+
+<div>
+  <input type="submit" value="login" />
+</div>
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+
+{% endblock main %}

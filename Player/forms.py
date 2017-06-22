@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm as AuthenticationBaseForm, UserCreationForm
+from django.forms import fields
 
 from . import models
 
@@ -26,3 +27,14 @@ class PlayerCreationForm(UserCreationForm):
 		pending_char = models.PendingCharRegistration(player=user,name=self.cleaned_data['initial_char'])
 		pending_char.save()
 		return user
+
+class AuthenticationForm(AuthenticationBaseForm):
+	"""
+	class for authenticating users
+	Accepts char name and password.
+	"""
+	username = fields.CharField(
+		label="Char Name",
+		max_length=16,
+		widget=forms.TextInput(attrs={'autofocus': ''}),
+	)

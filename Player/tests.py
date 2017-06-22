@@ -41,3 +41,28 @@ class Registration(TestCase):
 		self.assertEqual(user.current_char, char, "Initial char registration does not set current char")
 		chars.delete()
 		users.delete()
+
+
+class ValidateAccess(TestCase):
+
+	@classmethod
+	def setUpClass(self):
+		super(ValidateAccess, self).setUpClass()
+		self.client = Client()
+		self.user_password = "hello worlds"
+		self.user = Player.objects.create_user( email="me@example.ca", password=self.user_password)
+		self.char = Char(owner=self.user, name="snakr")
+		self.user.current_char =  		self.char
+		self.char.save()
+		self.user.save()
+
+	@classmethod
+	def tearDownClass(self):
+		super(ValidateAccess, self).tearDownClass()
+		self.char.delete()
+		self.user.delete()
+
+	def test_loginAndLogoutFlow(self):
+		response = self.client.post("/player/login", {"username":self.char.name, "password":self.user_password})
+		self.assertEqual(response.status_code, 302, "logging in does not redirect")
+		self.assertIn("_auth_user_id", self.client.session, "logging in does not create a session id")
