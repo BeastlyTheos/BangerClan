@@ -13,6 +13,7 @@ class Registration(TestCase):
 		self.password = "aoeueoao"
 		self.password2 = "ueoaoeue"
 		self.initial_char = "enis"
+		self.alt_char = "mithfalan"
 
 	def test_registrationFlow(self):
 		response = self.client.post(
@@ -39,6 +40,19 @@ class Registration(TestCase):
 		char = chars[0]
 		user.refresh_from_db()
 		self.assertEqual(user.current_char, char, "Initial char registration does not set current char")
+		self.assertTrue(self.client.login(username=char.name, password=self.password), "cannot log in")
+		response = self.client.post("/player/request_char", {"char":self.alt_char})
+		self.assertEqual(response.templates[0].name, "player/request_char_confirmation.html", "failed to request char")
+		pending_alt_char = PendingCharRegistration.objects.get(player=user, name=self.alt_char)
+		response = self.client.get("/player/register_char?token="+pending_alt_char.token)
+		self.assertEqual(response.templates[0].name, "player/register_char_confirmation.html")
+		alt_chars = Char.objects.filter(name=self.alt_char)
+		self.assertEqual( alt_chars.count(), 1, "Alternative char registration does not create a char object")
+		alt_char = alt_chars[0]
+		user.refresh_from_db()
+		self.assertEqual(user.current_char, alt_char, "Initial char registration does not set current char")
+		self.assertTrue(self.client.login(username=alt_char.name, password=self.password), "cannot log in")
+		alt_chars.delete()
 		chars.delete()
 		users.delete()
 

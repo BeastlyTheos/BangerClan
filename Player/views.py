@@ -25,6 +25,25 @@ def register(request):
 	context = {"form": form}
 	return render( request, "player/register.html", context)
 
+
+def request_char(request):
+	if request.method == 'POST':
+		# Create a form instance and populate it with data from the request (binding):
+		form = forms.RequestCharForm( request.POST)
+		# Check if the form is valid:
+		if form.is_valid():
+			form.save(request.user)
+			# redirect to the confirmation page
+			context = {"char":form.cleaned_data["char"]}
+			return render( request, "player/request_char_confirmation.html", context)
+
+	# If this is a GET (or any other method) create the default form.
+	else:
+		form = forms.RequestCharForm()
+	context = {"form": form}
+	return render( request, "player/request_char.html", context)
+
+
 def ShowPendingChars(request):
 	chars = PendingCharRegistration.objects.all()
 	html = "<title>pendings</title><table>"

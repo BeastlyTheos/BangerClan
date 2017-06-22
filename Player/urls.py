@@ -22,6 +22,7 @@ from . import views
 
 urlpatterns = [
 	url(r"^register/", views.register, name="register"),
+	url(r"^request_char$", views.request_char, name="request_char"),
 	url(r"^show/", views.ShowPendingChars),
 	url(r"^register_char$", views.register_char, name="register_char"),
 	url(r"^login$", auth_views.login, {"template_name":"player/login.html", "authentication_form":forms.AuthenticationForm}, name="login"),

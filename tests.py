@@ -13,6 +13,8 @@ templates += [
 	"player/"+name for name in [
 		"register.html",
 		"registration_confirmation.html",
+		"request_char.html",
+		"request_char_confirmation.html",
 		"register_char_confirmation.html",
 		"register_char_error.html",
 		"login.html",

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}request char{% endblock %}
+{% block main %}
+
+{% if form.errors %}
+form erros are: {{form.errors}}
+{% endif %}
+
+
+<form method="post" action="{% url 'request_char' %}">
+{% csrf_token %}
+{{form}}
+
+<div>
+  <input type="submit" value="request_char" />
+</div>
+</form>
+
+
+{% endblock main %}

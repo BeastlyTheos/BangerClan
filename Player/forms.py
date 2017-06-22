@@ -28,6 +28,14 @@ class PlayerCreationForm(UserCreationForm):
 		pending_char.save()
 		return user
 
+class RequestCharForm(forms.Form):
+	char = forms.CharField(max_length=16)
+
+	def save(self, user):
+		pending_char = models.PendingCharRegistration(player=user, name=self.cleaned_data["char"])
+		pending_char.save()
+
+
 class AuthenticationForm(AuthenticationBaseForm):
 	"""
 	class for authenticating users
