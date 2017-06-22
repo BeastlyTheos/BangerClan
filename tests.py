@@ -21,6 +21,10 @@ templates += [
 		"logged_out.html",
 		"password_change_form.html",
 		"password_change_done.html",
+		"password_reset.html",
+		"password_reset_complete.html",
+		"password_reset_confirm.html",
+		"password_reset_done.html",
 		"profile.html",
 	]
 ]
@@ -38,7 +42,11 @@ urls += [
 		"logout",
 		"password_change",
 		"password_change_done",
-		"profile",
+		"password_reset",
+		"password_reset_done",
+		#"reset",
+		"password_reset_complete",
+	"profile",
 	]
 ]
 

@@ -137,3 +137,7 @@ AUTHENTICATION_BACKENDS = ["Player.backends.ModelBackend"]
 
 # After logging in, redirect users to this view
 LOGIN_REDIRECT_URL = "profile"
+
+# email backend
+# simply prints the email source to the console for now
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

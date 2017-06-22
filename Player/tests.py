@@ -1,3 +1,6 @@
+import re
+
+from django.core import mail
 from django.test import TestCase, Client
 
 from Player.models import Player, Char, PendingCharRegistration
@@ -104,4 +107,19 @@ class ValidateAccess(TestCase):
 		self.assertEqual( response.status_code, 302, "Does not redirect after changing password back to original")
 		self.assertEqual( response.url, "/player/password_change_done", "changing password bac to original does not redirect to the success page")
 		self.assertTrue(self.client.login(username=self.char.name, password=self.user_password), "After changing password back to original, cannot log in")
+		self.client.logout()
+
+	def test_passwordReset(self):
+		self.assertTrue(self.client.login(username=self.char.name, password=self.user_password), "After changing password back to original, cannot log in")
+		response = self.client.post( "/player/password_reset", { "email": self.user.email})
+		self.assertEqual( response.url, "/player/password_reset_done", "requesting a password reset does not redirect to the password_reset_done")
+		mailBody = mail.outbox[0].body  # get the body of the password reset email from the testserver"s outbox
+		reset_url = re.search( "http://\S*/reset/\S+", mailBody.__str__()).group(0)  # use regular expressions to extract the reset url
+		response = self.client.get( reset_url)
+		self.assertEqual( response.status_code, 200, "password reset url is not valid")
+		response = self.client.post( reset_url, { "new_password1": self.user_password2, "new_password2": self.user_password2})
+		self.assertEqual( response.status_code, 302, "Password reset page rejects new password")
+		self.assertEqual( response.url, "/player/password_reset_complete", "successful password reset does not redirect to password_reset_done")
+		self.assertTrue(self.client.login(username=self.char.name, password=self.user_password2), "After resetting password, cannot log in")
+		response = self.client.post( "/password_change/", { "old_password": self.user_password2, "new_password1": self.user_password, "new_password2": self.user_password})  # change password back to original to avoid messing with other tests
 		self.client.logout()
