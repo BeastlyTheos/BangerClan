@@ -27,5 +27,7 @@ urlpatterns = [
 	url(r"^register_char$", views.register_char, name="register_char"),
 	url(r"^login$", auth_views.login, {"template_name":"player/login.html", "authentication_form":forms.AuthenticationForm}, name="login"),
 	url(r"^logout$", auth_views.logout, {"template_name":"player/logged_out.html"}, name="logout"),
+	url(r"^password_change$", auth_views.password_change, {"template_name":"player/password_change_form.html"}, name="password_change"),
+	url(r"^password_change_done$", auth_views.password_change_done, {"template_name":"player/password_change_done.html"}, name="password_change_done"),
 	url(r"^profile$", views.profile, name="profile"),
 ]

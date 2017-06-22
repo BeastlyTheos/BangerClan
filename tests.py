@@ -19,6 +19,8 @@ templates += [
 		"register_char_error.html",
 		"login.html",
 		"logged_out.html",
+		"password_change_form.html",
+		"password_change_done.html",
 		"profile.html",
 	]
 ]
@@ -34,6 +36,8 @@ urls += [
 		#"register_char",
 		"login",
 		"logout",
+		"password_change",
+		"password_change_done",
 		"profile",
 	]
 ]

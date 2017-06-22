@@ -64,6 +64,7 @@ class ValidateAccess(TestCase):
 		super(ValidateAccess, self).setUpClass()
 		self.client = Client()
 		self.user_password = "hello worlds"
+		self.user_password2 = "bye y'all"
 		self.user = Player.objects.create_user( email="me@example.ca", password=self.user_password)
 		self.char = Char(owner=self.user, name="snakr")
 		self.user.current_char =  		self.char
@@ -92,3 +93,15 @@ class ValidateAccess(TestCase):
 		self.client.logout()
 		response = self.client.get("/player/profile")
 		self.assertEqual(response.status_code, 302, "accessing profile after logging out does not redirect")
+
+	def test_passwordChange(self):
+		self.assertTrue(self.client.login(username=self.char.name, password=self.user_password), "cannot log in")
+		response = self.client.post("/player/password_change", { "old_password": self.user_password, "new_password1": self.user_password2, "new_password2": self.user_password2})
+		self.assertEqual( response.status_code, 302, "password change does not redirect")
+		self.assertEqual( response.url, "/player/password_change_done", "changing password does not redirect to the success page")
+		self.assertTrue(self.client.login(username=self.char.name, password=self.user_password2), "After changing password, cannot log in")
+		response = self.client.post( "/player/password_change", { "old_password": self.user_password2, "new_password1": self.user_password, "new_password2": self.user_password})
+		self.assertEqual( response.status_code, 302, "Does not redirect after changing password back to original")
+		self.assertEqual( response.url, "/player/password_change_done", "changing password bac to original does not redirect to the success page")
+		self.assertTrue(self.client.login(username=self.char.name, password=self.user_password), "After changing password back to original, cannot log in")
+		self.client.logout()
